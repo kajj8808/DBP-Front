@@ -6,28 +6,28 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 
 const userPage = () => {
-  const [address, setAddress] = useState<string>("");
-  const [password, setPW] = useState<string>("");
-  const onChangePW = (e: any) => {
+  const [address, setAddress] = useState < string > "";
+  const [password, setPW] = useState < string > "";
+  const onChangePW = (e) => {
     setPW(e.target.value);
   };
-  const [name, setName] = useState<string>("");
-  const onChangeName = (e: any) => {
+  const [name, setName] = useState < string > "";
+  const onChangeName = (e) => {
     setName(e.target.value);
   };
-  const [nickname, setNN] = useState<string>("");
-  const onChangeNN = (e: any) => {
+  const [nickname, setNN] = useState < string > "";
+  const onChangeNN = (e) => {
     setNN(e.target.value);
   };
-  const [detail, setDetail] = useState<string>("");
-  const onChangeDetail = (e: any) => {
+  const [detail, setDetail] = useState < string > "";
+  const onChangeDetail = (e) => {
     setDetail(e.target.value);
   };
-  const [img, setImg] = useState<string>("");
+  const [img, setImg] = useState < string > "";
 
   const { data: session } = useSession();
 
-  const onImgChange = async (e: any) => {
+  const onImgChange = async (e) => {
     const formData = new FormData();
     formData.append("image", e.target.files[0]);
     formData.append("key", "a824c0f54ea6884f2465d718da417f51");
@@ -44,7 +44,7 @@ const userPage = () => {
   };
 
   //정보변경을 위한 api요청
-  async function changeValue(user_id: string, content: string, type: string) {
+  async function changeValue(user_id, content, type) {
     const response = await fetch("api/userpage/change_status", {
       method: "POST",
       body: JSON.stringify({
@@ -64,11 +64,7 @@ const userPage = () => {
     return data;
   }
 
-  async function changeAddress(
-    user_id: string,
-    content: string[],
-    type: string
-  ) {
+  async function changeAddress(user_id, content, type) {
     const response = await fetch("api/userpage/change_status", {
       method: "POST",
       body: JSON.stringify({
