@@ -19,22 +19,40 @@ interface MessageForm {
 interface IUploadMessage {
   message: string;
   sender: string;
+  url: string;
+  fileName: string;
+  senderId: string;
+  senderName: string;
+  roomName: string;
+  profile_url: string;
 }
 
 interface IMessage {
-  sender: string;
-  avatar: string;
   content: string;
-  userId: number;
+  userId?: number | null | undefined;
+  roomId: string;
   option: "file" | "text" | "emoji";
+  userUser_srl?: number | undefined | null;
+  user?: {
+    profile_url?: string | null | undefined;
+    userName?: string;
+    id?: string | null | undefined;
+    name?: string | null;
+  };
 }
+
 interface IFac {
   content: string;
   option: "emoji" | "file" | "text";
   sender?: string;
 }
 
-export default ({ chats, roomId }) => {
+interface IProps {
+  chats: IMessage[];
+  roomId: string;
+}
+
+export default ({ chats, roomId }: IProps) => {
   const {
     register,
     watch,
@@ -91,9 +109,9 @@ export default ({ chats, roomId }) => {
           const clientMessage = makeMessage(
             {
               content: url,
-              option: "file",
+              userId: +senderId,
               roomId: roomNamee,
-              userId: senderId,
+              option: "file",
               userName: senderName,
               profile_url,
               id: senderName,
@@ -147,12 +165,12 @@ export default ({ chats, roomId }) => {
     console.log(errors);
   };
 
-  const scrollRef = useRef<HTMLUListElement>();
+  const scrollRef = useRef<any>();
 
   const SMsgFactory = ({ content, option, sender }: IFac) => {
-    const userId = session?.user.id;
-    const profile_url = session?.user.image;
-    const userName = session?.user.name;
+    const userId = +session?.user!.id!;
+    const profile_url = session?.user!.image;
+    const userName = session?.user!.name;
 
     const clientMessage = makeMessage(
       {
@@ -163,7 +181,8 @@ export default ({ chats, roomId }) => {
         roomId,
         option,
         id: session?.user?.email,
-        sender: sender ? sender : "",
+        /*         sender: sender ? sender : "",
+         */
       },
       "client"
     );
@@ -178,7 +197,8 @@ export default ({ chats, roomId }) => {
         option,
         roomId,
         userId,
-        sender: sender ? sender : "",
+        /*         sender: sender ? sender : "",
+         */
       },
       "server"
     );
@@ -248,7 +268,7 @@ export default ({ chats, roomId }) => {
                       {/* Sender Avatar SenderUserName */}
                       <div className="h-12 w-12 overflow-hidden rounded-full shadow-inner shadow-slate-500 dark:shadow-black">
                         <Image
-                          src={msg.user.profile_url}
+                          src={msg.user!.profile_url!}
                           alt="Avatarimage"
                           width={48}
                           height={48}
@@ -270,10 +290,10 @@ export default ({ chats, roomId }) => {
                                   : ""
                               } font-bold`}
                             >
-                              {msg.user.name}
+                              {msg.user?.name}
                             </span>
                             <span className="relative -top-2 text-sm text-gray-500 ">
-                              @{msg.user.id}
+                              @{msg.user?.id}
                             </span>
                           </div>
                         </div>

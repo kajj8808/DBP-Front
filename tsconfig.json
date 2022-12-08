@@ -25,7 +25,20 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "components/Modal/ModalContainer.jsx"
+    "components/Modal/ModalContainer.jsx",
+    "pages/api/chat/getlist/[id]/index.jsx",
+    "pages/userpage/userModal.jsx",
+    "pages/userpage/index.jsx",
+    "pages/chatlist/index.jsx",
+    "pages/api/chat_list/make_room.js",
+    "pages/api/chat/getlist/[id]/index.jsx",
+    "pages/api/auth/[...nextauth].tsx",
+    "pages/admin/users.jsx",
+    "pages/admin/user_logs.jsx",
+    "pages/admin/user_change_admin.jsx",
+    "pages/admin/team.jsx",
+    "pages/admin/departments.jsx",
+    "components/AdminLayout.jsx"
   ],
   "exclude": ["node_modules"]
 }

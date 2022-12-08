@@ -3,27 +3,28 @@ import useMutation from "./useMutation";
 
 interface IAMessage {
   content: string;
-  userId: string | null | undefined;
+  userId: number | null | undefined;
   roomId: string;
   option: "file" | "text" | "emoji";
   userName?: string | null | undefined;
   profile_url?: string | null | undefined;
-  id?: string;
+  id?: string | null | undefined;
   userUser_srl?: number;
 }
 
 interface IMessage {
   content: string;
-  userId?: string | null | undefined;
+  userId?: number | null | undefined;
   roomId: string;
   option: "file" | "text" | "emoji";
   userUser_srl?: number | undefined | null;
   user?: {
     profile_url?: string | null | undefined;
     userName?: string;
-    id?: string;
+    id?: string | null | undefined;
     name?: string | null;
   };
+  id?: string | null | undefined;
 }
 
 const makeMessage = (

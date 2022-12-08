@@ -37,7 +37,7 @@ export default NextAuth({
         }
 
         const isValid = await verifyPassword(
-          credentials!.password,
+          credentials.password,
           user.password
         );
 
@@ -45,10 +45,10 @@ export default NextAuth({
           throw new Error("비밀번호가 틀렸습니다.");
         }
         return {
-          id: user!.user_srl,
-          email: user!.id,
-          name: user!.name,
-          image: user!.profile_url,
+          id: user.user_srl,
+          email: user.id,
+          name: user.name,
+          image: user.profile_url,
         };
       },
     }),
@@ -57,7 +57,7 @@ export default NextAuth({
   callbacks: {
     session: async ({ session, token }) => {
       if (session?.user) {
-        session.user.id = token.uid as string;
+        session.user.id = token.uid;
       }
       return session;
     },

@@ -11,10 +11,10 @@ const socket = io(SEVER_URL);
 interface LayoutProps {
   children: React.ReactNode;
   className?: string;
-  senderId: string;
-  senderName: string;
-  roomName: string;
-  profile: string;
+  senderId?: string | null | undefined;
+  senderName?: string | null | undefined;
+  roomName?: string | null | undefined;
+  profile?: string | null | undefined;
 }
 
 interface IUploadMessage {
@@ -69,10 +69,10 @@ export default function InPutLayer({
     params.set("size", file.size.toString());
     params.set("currentChuckIndex", currentChunkIndex!.toString());
     params.set("totalChucks", Math.ceil(file.size / chunkSize).toString());
-    params.set("senderId", senderId);
-    params.set("senderName", senderName);
-    params.set("roomName", roomName);
-    params.set("profile_url", profile);
+    params.set("senderId", senderId!);
+    params.set("senderName", senderName!);
+    params.set("roomName", roomName!);
+    params.set("profile_url", profile!);
     const headers = { "Content-Type": "application/octet-stream" };
     const url = `${SEVER_URL}/upload?${params.toString()}`;
     console.log(url);
