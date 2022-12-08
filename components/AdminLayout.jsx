@@ -4,8 +4,8 @@ import { Container } from "react-bootstrap";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { Button } from "react-bootstrap";
-
-export default ({ children }: any) => {
+//
+export default ({ children }) => {
   const router = useRouter();
   const { data: session } = useSession();
 
