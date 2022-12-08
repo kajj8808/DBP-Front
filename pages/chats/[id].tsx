@@ -11,7 +11,16 @@ import { useSession } from "next-auth/react";
 import { GetStaticProps } from "next";
 import { saveAs } from "file-saver";
 import { SocketContext } from "@context/socket";
+import { DefaultSession } from "next-auth";
 
+interface IDFa extends DefaultSession {
+  user?: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+    id?: string | null;
+  };
+}
 interface MessageForm {
   message: string;
 }
@@ -67,7 +76,7 @@ export default ({ chats, roomId }: IProps) => {
   const socket = useContext(SocketContext);
 
   const [msgList, setMsgList] = useState<IMessage[]>([]);
-  const { data: session } = useSession();
+  const { data: session }: IDFa = useSession();
   const [filterMode, setFilterMode] = useState(false);
   const [filterList, setFilterList] = useState<IMessage[]>([]);
   const [filterText, setFilterText] = useState("");
