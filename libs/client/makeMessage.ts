@@ -36,7 +36,6 @@ const makeMessage = (
       option,
       user: { profile_url, name: userName, id },
     });
-    console.log(result);
   } else {
     result = serverMessage({
       content,

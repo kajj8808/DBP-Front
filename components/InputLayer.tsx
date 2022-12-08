@@ -2,7 +2,7 @@ import React, { useEffect, useState, DragEvent, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import io from "socket.io-client";
 
-const SEVER_URL = "http://localhost:4000";
+const SEVER_URL = process.env.SOCKET_SERVER;
 const socket = io(SEVER_URL);
 
 const chunkSize = 500000; // 500 KB stream에서 한번에 전송가능한 용량
