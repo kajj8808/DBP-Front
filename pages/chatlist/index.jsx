@@ -3,15 +3,15 @@ import Sidebar from "@components/sidebar";
 import Router, { useRouter } from "next/router";
 import ChatModal from "./chatModal";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { BiMessageRoundedAdd } from "react-icons/bi";
 
 const Chat_list = () => {
   const { data: session } = useSession();
-  const [rooms, setRoom] = useState<any[]>([]);
-  const [modal, setModal] = useState<boolean>(false);
+  const [rooms, setRoom] = useSyncExternalStore([]);
+  const [modal, setModal] = useState < boolean > false;
   const router = useRouter();
-  async function getChatRoom(user_id: string): Promise<any> {
+  async function getChatRoom(user_id) {
     const response = await fetch("api/chat_list/get_list", {
       method: "POST",
       body: JSON.stringify({
@@ -29,7 +29,7 @@ const Chat_list = () => {
     return data;
   }
 
-  async function DeleteRoom(user_id: string, room_id: string): Promise<any> {
+  async function DeleteRoom(user_id, room_id) {
     const response = await fetch("api/chat_list/delete_room", {
       method: "POST",
       body: JSON.stringify({
@@ -54,7 +54,7 @@ const Chat_list = () => {
     });
   }, []);
 
-  const joinRoom = (room_id: number): any => {
+  const joinRoom = (room_id) => {
     Router.push({ pathname: `/chats/${room_id}` });
   };
 
