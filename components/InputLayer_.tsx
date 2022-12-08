@@ -3,7 +3,7 @@ import React, { useEffect, useState, DragEvent } from "react";
 import axios from "axios";
 const chunkSize = 1048576 * 3; // 3 MB
 
-const SEVER_URL = process.env.NEXT_PUBLIC_SOCKET_SERVER;
+const SEVER_URL = process.env.NEXT_PUBLIC_SOCKET_SERVER || "4000";
 import io from "socket.io-client";
 
 const socket = io(SEVER_URL);
@@ -11,6 +11,10 @@ const socket = io(SEVER_URL);
 interface LayoutProps {
   children: React.ReactNode;
   className?: string;
+  senderId: string;
+  senderName: string;
+  roomName: string;
+  profile: string;
 }
 
 interface IUploadMessage {

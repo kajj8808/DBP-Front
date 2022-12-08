@@ -9,17 +9,20 @@ interface IAMessage {
   userName?: string | null | undefined;
   profile_url?: string | null | undefined;
   id?: string;
+  userUser_srl?: number;
 }
 
 interface IMessage {
   content: string;
-  userId: string | null | undefined;
+  userId?: string | null | undefined;
   roomId: string;
   option: "file" | "text" | "emoji";
+  userUser_srl?: number | undefined | null;
   user?: {
     profile_url?: string | null | undefined;
     userName?: string;
     id?: string;
+    name?: string | null;
   };
 }
 
@@ -31,7 +34,7 @@ const makeMessage = (
   if (type === "client") {
     result = clientMessage({
       content,
-      userUser_srl: +userId,
+      userUser_srl: +userId!,
       roomId,
       option,
       user: { profile_url, name: userName, id },
@@ -47,6 +50,6 @@ const makeMessage = (
   return result;
 };
 
-const clientMessage = (msg) => ({ ...msg });
-const serverMessage = (msg) => ({ ...msg });
+const clientMessage = (msg: IMessage) => ({ ...msg });
+const serverMessage = (msg: IMessage) => ({ ...msg });
 export default makeMessage;

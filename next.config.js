@@ -5,6 +5,7 @@ const nextConfig = {
   images: {
     domains: ["i.pravatar.cc", "imagedelivery.net", "i.ibb.co"],
   },
+  reactStrictMode: false,
 };
 
 module.exports = nextConfig;

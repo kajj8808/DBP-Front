@@ -31,7 +31,7 @@ export default () => {
         </button>
         <div className="h-12 w-12 overflow-hidden rounded-full shadow-inner shadow-slate-300 dark:shadow-black">
           <Image
-            src={session?.user?.image}
+            src={session?.user?.image!}
             alt="profile"
             width={98}
             height={98}
