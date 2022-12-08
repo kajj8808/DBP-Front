@@ -13,55 +13,7 @@ import { saveAs } from "file-saver";
 import { SocketContext } from "@context/socket";
 import { DefaultSession } from "next-auth";
 
-interface IDFa extends DefaultSession {
-  user?: {
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-    id?: string | null;
-  };
-}
-interface MessageForm {
-  message: string;
-}
-
-interface IUploadMessage {
-  message: string;
-  sender: string;
-  url: string;
-  fileName: string;
-  senderId: string;
-  senderName: string;
-  roomName: string;
-  profile_url: string;
-}
-
-interface IMessage {
-  content: string;
-  userId?: number | null | undefined;
-  roomId: string;
-  option: "file" | "text" | "emoji";
-  userUser_srl?: number | undefined | null;
-  user?: {
-    profile_url?: string | null | undefined;
-    userName?: string;
-    id?: string | null | undefined;
-    name?: string | null;
-  };
-}
-
-interface IFac {
-  content: string;
-  option: "emoji" | "file" | "text";
-  sender?: string;
-}
-
-interface IProps {
-  chats: IMessage[];
-  roomId: string;
-}
-
-export default ({ chats, roomId }: IProps) => {
+export default ({ chats, roomId }) => {
   const {
     register,
     watch,
@@ -69,16 +21,16 @@ export default ({ chats, roomId }: IProps) => {
     reset,
     setFocus,
     formState: { errors },
-  } = useForm<MessageForm>({
+  } = useForm({
     mode: "onChange",
   });
 
   const socket = useContext(SocketContext);
 
-  const [msgList, setMsgList] = useState<IMessage[]>([]);
-  const { data: session }: IDFa = useSession();
+  const [msgList, setMsgList] = useState([]);
+  const { data: session } = useSession();
   const [filterMode, setFilterMode] = useState(false);
-  const [filterList, setFilterList] = useState<IMessage[]>([]);
+  const [filterList, setFilterList] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [initalJoin, setInitialJoin] = useState(true);
   const [initalLoading, setInitialLoading] = useState(true);
@@ -101,7 +53,7 @@ export default ({ chats, roomId }: IProps) => {
 
   useEffect(() => {
     if (initalLoading && !isLoading) {
-      socket.on("message", (msgObj: IMessage) => {
+      socket.on("message", (msgObj) => {
         addMsgToMsgList(msgObj);
       });
 
@@ -114,7 +66,7 @@ export default ({ chats, roomId }: IProps) => {
           senderName,
           roomName: roomNamee,
           profile_url,
-        }: IUploadMessage) => {
+        }) => {
           const clientMessage = makeMessage(
             {
               content: url,
@@ -162,24 +114,24 @@ export default ({ chats, roomId }: IProps) => {
     }
   }, [filterList, msgList]);
 
-  const addMsgToMsgList = (msgObj: IMessage) => {
+  const addMsgToMsgList = (msgObj) => {
     setMsgList([...msgList, { ...msgObj }]);
   };
 
-  const onValid = ({ message }: MessageForm) => {
+  const onValid = ({ message }) => {
     SMsgFactory({ content: message, option: "text" });
   };
 
-  const onInvalid = (errors: FieldErrors) => {
+  const onInvalid = (errors) => {
     console.log(errors);
   };
 
-  const scrollRef = useRef<any>();
+  const scrollRef = useRef();
 
-  const SMsgFactory = ({ content, option, sender }: IFac) => {
-    const userId = +session?.user!.id!;
-    const profile_url = session?.user!.image;
-    const userName = session?.user!.name;
+  const SMsgFactory = ({ content, option, sender }) => {
+    const userId = +session.user.id;
+    const profile_url = session.user.image;
+    const userName = session.user.name;
 
     const clientMessage = makeMessage(
       {
@@ -214,11 +166,11 @@ export default ({ chats, roomId }: IProps) => {
     sendAnswer(serverMessage);
   };
 
-  const sendEmoji = (emoji: string) => {
+  const sendEmoji = (emoji) => {
     SMsgFactory({ content: emoji, option: "emoji" });
   };
 
-  const [isTheme, setTheme] = useState<boolean>(false);
+  const [isTheme, setTheme] = useState < boolean > false;
 
   return (
     <>
@@ -277,7 +229,7 @@ export default ({ chats, roomId }: IProps) => {
                       {/* Sender Avatar SenderUserName */}
                       <div className="h-12 w-12 overflow-hidden rounded-full shadow-inner shadow-slate-500 dark:shadow-black">
                         <Image
-                          src={msg.user!.profile_url!}
+                          src={msg.user.profile_url}
                           alt="Avatarimage"
                           width={48}
                           height={48}
@@ -404,7 +356,7 @@ export function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getStaticProps = async (ctx) => {
   const { params } = ctx;
 
   const chats = await client.message.findMany({
