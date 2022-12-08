@@ -4,7 +4,6 @@ import { Roboto } from "@next/font/google";
 
 import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
-import io, { Socket } from "socket.io-client";
 
 import Head from "next/head";
 import { createContext } from "react";

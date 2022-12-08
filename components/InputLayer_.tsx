@@ -3,7 +3,7 @@ import React, { useEffect, useState, DragEvent } from "react";
 import axios from "axios";
 const chunkSize = 1048576 * 3; // 3 MB
 
-const SEVER_URL = process.env.SOCKET_SERVER;
+const SEVER_URL = process.env.NEXT_PUBLIC_SOCKET_SERVER;
 import io from "socket.io-client";
 
 const socket = io(SEVER_URL);
