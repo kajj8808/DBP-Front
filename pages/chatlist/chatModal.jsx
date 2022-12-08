@@ -3,17 +3,17 @@ import Modal from "@components/Modal/Modal";
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 
-function ChatModal({ onClose }: any): any {
+function ChatModal({ onClose }) {
   const { data: session } = useSession();
-  const [roomName, setRoomName] = useState<string>("");
-  const [friendlist, setFriendList] = useState<any[]>([]);
+  const [roomName, setRoomName] = useState("");
+  const [friendlist, setFriendList] = useState([]);
   const [checkedList, setCheckedLists] = useState([]);
 
-  const onChangeRoomName = (e: any) => {
+  const onChangeRoomName = (e) => {
     setRoomName(e.target.value);
   };
 
-  async function getFriend(user_id: string) {
+  async function getFriend(user_id) {
     const response = await fetch("api/friend_list/get_list", {
       method: "POST",
       body: JSON.stringify({
@@ -30,7 +30,7 @@ function ChatModal({ onClose }: any): any {
     return data;
   }
 
-  async function makeRoom(user_id: string) {
+  async function makeRoom(user_id) {
     const response = await fetch("api/chat_list/make_room", {
       method: "POST",
       body: JSON.stringify({

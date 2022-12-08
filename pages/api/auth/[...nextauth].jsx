@@ -31,7 +31,11 @@ export default NextAuth({
             profile_url: true,
           },
         });
-
+        const login_log = await prisma.$queryRaw`
+        INSERT INTO UserLog (user_srl, date, type) VALUES ((SELECT user_srl FROM User WHERE id=${
+          credentials?.id
+        }), ${new Date().toISOString().replace("T", " ").replace("Z", "")}, 0);
+        `;
         if (!user) {
           throw new Error("유저를 찾을 수 없습니다.");
         }
