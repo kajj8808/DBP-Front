@@ -1,0 +1,15 @@
+#depenciency
+/node_modules
+/.pnp
+.pnp.js
+package-lock.json
+
+#Local env file
+.env*.local
+.env
+.vscode
+.next
+.idea
+
+#versel
+.versel

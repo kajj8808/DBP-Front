@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model User {
+  user_srl       Int       @id @unique @default(autoincrement()) // 회원 고유 번호
+  id             String    @unique // 아이디
+  password       String // 비밀번호
+  name           String // 이름
+  nickname       String
+  profile_url    String
+  address        String
+  detail_address String
+  department_id  Int
+  team_id        Int
+  is_admin       Boolean
+  friends        Friend[]
+  Message        Message[]
+}
+
+model UserLog {
+  user_log_srl Int      @id @unique @default(autoincrement())
+  user_srl     Int
+  date         DateTime @default(now())
+  type         Int // 0: login, 1: logout
+}
+
+model Friend {
+  user_id    String
+  friend_id  String
+  is_like    Boolean
+  is_blocked Boolean
+  user       User    @relation(fields: [user_id], references: [id])
+
+  @@id([user_id, friend_id])
+}
+
+model Department {
+  dep_id   Int    @id @unique @default(autoincrement())
+  dep_name String @unique
+  teams    Team[]
+}
+
+model Team {
+  team_id    Int        @id @unique @default(autoincrement())
+  parent_id  Int // Deapartment.dep_id(부서 식별 번호)
+  team_name  String     @unique
+  department Department @relation(fields: [parent_id], references: [dep_id])
+}
+
+model Message {
+  message_id   Int      @id @default(autoincrement())
+  room_id      String
+  content      String
+  option       String
+  created_time DateTime @default(now())
+  read_time    DateTime @updatedAt
+  user         User     @relation(fields: [userUser_srl], references: [user_srl])
+  userUser_srl Int
+}
+
+model Emoji {
+  emoji_id Int    @id @unique @default(autoincrement())
+  name     String
+  url      String
+}
+
+model File {
+  file_id   Int    @id @unique @default(autoincrement())
+  file_type String
+  title     String
+  url       String
+}
+
+model Member {
+  room_id    Int
+  user_id    String
+  created_at DateTime @default(now())
+  chat_room  ChatRoom @relation(fields: [room_id], references: [room_id])
+
+  @@id([room_id, user_id])
+}
+
+model ChatRoom {
+  room_id    Int      @id @unique @default(autoincrement())
+  room_name  String
+  is_group   Boolean  @default(false) // 기본 생성 채팅방은 1:1
+  created_at DateTime @default(now())
+  members    Member[]
+}
