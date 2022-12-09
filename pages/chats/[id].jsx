@@ -1,3 +1,4 @@
+
 import InPutLayer from "@components/InputLayer_";
 import Image from "next/image";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -53,9 +54,7 @@ export default ({ chats, roomId }) => {
 
   useEffect(() => {
     if (initalLoading && !isLoading) {
-      socket.on("message", (msgObj) => {
-        addMsgToMsgList(msgObj);
-      });
+     
 
       socket.on(
         "upload_done",
@@ -105,7 +104,10 @@ export default ({ chats, roomId }) => {
       reset();
     }
   }, [answerData, reset]);
-
+  socket.on("message", (msgObj) => {
+    console.log(msgObj)
+    addMsgToMsgList(msgObj);
+  });
   /* me is reverse */
   useEffect(() => {
     if (scrollRef.current) {
@@ -115,6 +117,7 @@ export default ({ chats, roomId }) => {
   }, [filterList, msgList]);
 
   const addMsgToMsgList = (msgObj) => {
+    console.log(msgObj)
     setMsgList([...msgList, { ...msgObj }]);
   };
 
@@ -170,7 +173,7 @@ export default ({ chats, roomId }) => {
     SMsgFactory({ content: emoji, option: "emoji" });
   };
 
-  const [isTheme, setTheme] = useState < boolean > false;
+  const [isTheme, setTheme] = useState(false);
 
   return (
     <>
